@@ -1,0 +1,8 @@
+extends layout
+block bodycontent
+	div(class="row")
+		.btn-group(role="group",aria-label="...")
+			a(class="btn btn-primary btn-lg",href="/edit/new") add new
+		.list-group
+			each i in files
+				a( class="list-group-item list-group-item-info",href= "/display/" + i.split('.')[0])= i.split('.')[0]

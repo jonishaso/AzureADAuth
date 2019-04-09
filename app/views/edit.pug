@@ -1,0 +1,59 @@
+extends layout
+
+block bodycontent
+	div(class="row")
+		if err
+			h2= JSON.stringify(err)
+		else
+			.row
+				.btn-group(role="group", aria-label="...")
+					h2 Add Element
+					button(id = "addST", type="button", class="btn btn-primary btn-lg") Title
+					button(id = "addP", type="button", class="btn btn-primary btn-lg") Paragraph
+					button(id = "addI", type="button", class="btn btn-primary btn-lg") Image
+			.row
+				form(action="/edit", method="post", id="edf")
+					if !content
+						.form-group
+							label(for="head") Title
+							textarea(
+								class="form-control",
+								name="head",
+								id="head",
+								cols="30",
+								rows="1",
+								style="resize:none",
+								placeholder="Add title...."
+							)
+					else
+						each val, index in content
+							if  /head/.test(index)
+								.form-group
+									label(for="head", style="margin-top:20px; margin-bottom:10px;") Title
+									textarea(
+										class="form-control",
+										name="head",
+										id="head",
+										cols="30",
+										rows="1",
+										style="resize:none",
+									) #{val}
+							else if /^e[0-9]+p[0-9]+$/.test(index)
+								.form-group.para
+									label(for= index, style="margin-top:20px; margin-bottom:10px;") #{"paragraph#" + index.split('p')[1]}  
+									textarea(class="form-control"
+										name= index
+										id= index
+										cols="30"
+										rows="10"
+										style="resize:vertical") #{val}
+							else if /^e[0-9]+st[0-9]+$/.test(index)
+								.form-group.subtitle
+									label(for= index, style="margin-top:20px; margin-bottom:10px;") #{"subTile#" + index.split('st')[1]}  
+									textarea(class="form-control"
+										name= index
+										id= index
+										cols="30"
+										rows="1"
+										style="resize:none") #{val}
+					button(type="submit",class="btn btn-danger btn-lg") Submit

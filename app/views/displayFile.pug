@@ -1,0 +1,21 @@
+extends layout
+
+block bodycontent
+	div(class="row")
+		if err
+			h2= JSON.stringify(err)
+		else
+			.btn-group(role="group",aria-label="...")
+				a(class="btn btn-primary btn-lg",
+				href="/edit/" + fname) Edit
+				form(action="/edit/" + fname + "?_method=DELETE",
+				method="POST", style="margin-top:60px;")
+					button(type="submit",class="btn btn-danger btn-lg") Delete
+			.row
+				each val, index in content
+					if  /head/.test(index)
+						h1 #{val}
+					else if /^e[0-9]+p[0-9]+$/.test(index)
+						p #{val}
+					else if /^e[0-9]+st[0-9]+$/.test(index)
+						h2 #{val}
